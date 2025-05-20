@@ -12,13 +12,16 @@ struct ContentView: View {
     
     var body: some View {
         TabView {
-            Tab("Hello", systemImage: "tortoise.fill") {
-                QuoteView(show: "Breaking Bad")
-                    .toolbarBackgroundVisibility(.visible, for: .tabBar)
+            Tab(Constants.bbName, systemImage: "tortoise.fill") {
+                QuoteView(show: Constants.bbName)
+                    
             }
-            Tab("Hello", systemImage: "tortoise.fill") {
-                QuoteView(show: "Better Call Saul")
-                    .toolbarBackgroundVisibility(.visible, for: .tabBar)
+            Tab(Constants.bcsName, systemImage: "briefcase") {
+                QuoteView(show: Constants.bcsName)
+            }
+            
+            Tab(Constants.ecName, systemImage: "car") {
+                QuoteView(show: Constants.ecName)
             }
         }
         .preferredColorScheme(.dark)
