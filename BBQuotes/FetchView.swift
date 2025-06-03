@@ -1,5 +1,12 @@
 //
-//  QuoteView.swift
+//  FetchView.swift
+//  BBQuotes
+//
+//  Created by Vinod Rathod on 03/06/25.
+//
+
+//
+//  FetchView.swift
 //  BBQuotes
 //
 //  Created by Vinod Rathod on 13/05/25.
@@ -8,7 +15,7 @@
 import Foundation
 import SwiftUI
 
-struct QuoteView: View {
+struct FetchView: View {
     let vm = ViewModel()
     let show: String
     
@@ -32,7 +39,7 @@ struct QuoteView: View {
                         case .fetching:
                             ProgressView()
                             
-                        case .success:
+                        case .successQuote:
                             Text("\"\(vm.quote.quote)\"")
                                 .minimumScaleFactor(0.5)
                                 .multilineTextAlignment(.center)
@@ -67,24 +74,45 @@ struct QuoteView: View {
                         case .failed(let error):
                             let _ = print("error: " + error.localizedDescription)
                             Text("error: " + error.localizedDescription)
+                        case .succesEpisode:
+                            EpisodeView(episode: vm.episode)
                         }
                         
                         Spacer()
                     }
                     
-                    Button {
-                        Task {
-                            await vm.getQuoteData(for: show)
+                    HStack {
+                        Button {
+                            Task {
+                                await vm.getQuoteData(for: show)
+                            }
+                        } label: {
+                            Text("Get Random Quote")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color("\(show.replaceSpaces())Button"))
+                                .cornerRadius(7)
+                                .shadow(color: Color("\(show.replaceSpaces())Shadow"), radius: 2)
                         }
-                    } label: {
-                        Text("Get Random Quote")
-                            .font(.title)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color("\(show.replaceSpaces())Button"))
-                            .cornerRadius(7)
-                            .shadow(color: Color("\(show.replaceSpaces())Shadow"), radius: 2)
+                        
+                        Spacer(minLength: 20)
+                        
+                        Button {
+                            Task {
+                                await vm.getEpisode(for: show)
+                            }
+                        } label: {
+                            Text("Get Random Quote")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color("\(show.replaceSpaces())Button"))
+                                .cornerRadius(7)
+                                .shadow(color: Color("\(show.replaceSpaces())Shadow"), radius: 2)
+                        }
                     }
+                    .padding(.horizontal)
                     
                     Spacer(minLength: 95)
                 }
@@ -101,7 +129,7 @@ struct QuoteView: View {
 }
 
 #Preview {
-    QuoteView(show: Constants.bbName)
+    FetchView(show: Constants.bbName)
         .preferredColorScheme(.dark)
 }
 
